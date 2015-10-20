@@ -30,6 +30,14 @@ Game.prototype = {
      } );
 
      ctx.stroke();
+  },
+
+  /**
+   * Clear the game canvas for redrawing
+   */
+  clear: function() {
+    var ctx = this.ctx;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
 };
