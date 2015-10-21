@@ -16,30 +16,33 @@ Game.prototype = {
   draw: function(obj) {
     var pos = obj.pos;
     var shape = obj.shape;
-    var speed = obj.pos.add(obj.speed) || geo.Vector.create([0, 0]);
+    var speed = obj.shape.center.add(obj.speed.multiply(3)) || obj.shape.center;
 
     var ctx = this.ctx;
 
-     ctx.beginPath();
+    ctx.strokeStyle = "black";
+    ctx.beginPath();
 
-     shape.points.forEach(function(point) {
-       var p = geo.Vector.create(pos);
-       p = p.add(point);
+    shape.points.forEach(function(point) {
+     var p = geo.Vector.create(pos);
+     p = p.add(point);
 
-       if (point === shape.points[0]) {
-         ctx.moveTo(p.e(1), p.e(2));
-       } else {
-         ctx.lineTo(p.e(1), p.e(2));
-       }
-     } );
-     ctx.stroke();
+     if (point === shape.points[0]) {
+       ctx.moveTo(p.e(1), p.e(2));
+     } else {
+       ctx.lineTo(p.e(1), p.e(2));
+     }
+    } );
+    ctx.stroke();
 
-     // Draw the speed vector
-     ctx.beginPath();
-     ctx.moveTo(pos.e(1), pos.e(2));
-     ctx.lineTo(speed.e(1), speed.e(2));
-     ctx.strokeStyle = "#ff0000";
-     ctx.stroke();
+    // Draw the speed vector
+    ctx.strokeStyle = "red";
+    ctx.beginPath();
+    var x1 = pos.add(obj.shape.center);
+    var x2 = pos.add(speed);
+    ctx.moveTo(x1.e(1), x1.e(2));
+    ctx.lineTo(x2.e(1), x2.e(2));
+    ctx.stroke();
   },
 
   /**

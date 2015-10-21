@@ -1,7 +1,7 @@
 var geo = require('./geo');
 
 var Angle = Math.PI / 16;
-var Accel = 1; // 1px per time unit
+var Accel = 1; // px per time unit
 var NullVector = geo.Vector.create([0, 0]);
 
 function Ship() {
@@ -40,7 +40,7 @@ Ship.prototype = {
     thrust: function() {
       // TODO: Scale the direction vector using the acceleration
       // and add to speed vector
-      this.speed = this.speed.add(this.dir);
+      this.speed = this.speed.add(this.dir.multiply(Accel));
       console.log(this.speed);
     },
 
