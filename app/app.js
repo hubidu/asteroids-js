@@ -1,21 +1,43 @@
+var _ = require('lodash');
+
 var geo = require('./geo');
 var Ship = require('./ship');
 var Asteroid = require('./asteroid');
 var Game = require('./game');
 
+
 window.onload = function() {
 
   var canvas = document.getElementById("canvas");
-  var game = new Game(canvas);
-  var ship = new Ship();
-  var asteroids = [ new Asteroid(), new Asteroid(), new Asteroid(), new Asteroid() ];
 
+  var game,
+      ship,
+      asteroids;
+
+  // Initialize game
+  function init() {
+    game = new Game(canvas);
+    ship = new Ship();
+    asteroids = [ new Asteroid(), new Asteroid(), new Asteroid(), new Asteroid() ];
+  }
+  init();
+
+  /**
+   * Game render loop
+   */
   function render(timestamp) {
+      // Check collisions with ship
+      var collisionWithAsteroid = _.any(asteroids, function(asteroid) {
+        return ship.collisionWith(asteroid);
+      });
+      if(collisionWithAsteroid) {
+        // Restart game
+        init();
+      }
+
       // Reset canvas
       // TODO: Optimize: Just clear areas which need to be redrawn
       game.clear();
-
-      // Check collisions
 
       // Draw objects
       ship = game.flipOver(ship);

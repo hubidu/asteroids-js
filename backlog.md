@@ -3,13 +3,18 @@
 Another crappy asteroids game in the browser
 
 ## Resources
+- eshint
 - [1 hr] Egghead canvas videos: https://egghead.io/series/learn-html5-graphics-and-animation
 - [0.5 hr] Egghead webpack videos: https://egghead.io/series/angular-and-webpack-for-modular-applications
 
 ## Project Backlog
 
 - Setup an npm/webpack project
+  * initialize a git repository
+  * setup a proper .gitignore file
+  * configure eshint
   * use webpack-dev-server and hot reload
+  * implement an npm watch script
 - Display a space ship
   * the space ship can be a simple triangle
   * it should be clear in which direction the space ship is heading
@@ -18,7 +23,7 @@ Another crappy asteroids game in the browser
   * the ship should always accelerate in the direction it is currently heading
   * the ship should deccelarate when thrust is released and
   * should only accelerate to a maximum speed
-  * when the ship leaves the game area it should reappear at the opposite side of the game area
+  * when the ship leaves the game area it should reappear on the opposite side of the game area
 - Display asteroids on the game area
   * Asteroids should have different sizes (at least 3)
   * Asteroids should drift in a random direction and

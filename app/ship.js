@@ -49,6 +49,13 @@ Ship.prototype = {
      */
     fire: function() {
       console.log('Should be firing!');
+    },
+
+    /**
+     * Check if ship collides with given object
+     */
+    collisionWith: function(obj) {
+      return this.shape.intersects(obj.shape);
     }
 
 };
