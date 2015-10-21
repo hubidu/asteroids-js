@@ -14,7 +14,7 @@ window.onload = function() {
       game.clear();
 
       // Draw the ship
-      // REFACTOR: Draw the game object
+      ship = game.flipOver(ship);
       game.draw(ship);
 
       window.requestAnimationFrame(render);

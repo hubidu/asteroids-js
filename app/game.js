@@ -8,6 +8,31 @@ function Game(canvas) {
 Game.prototype = {
 
   /**
+   * Check if the game object reached the game area
+   * boundaries. If it did flip it to opposite side.
+   */
+  flipOver: function(obj) {
+    var pos = obj.pos;
+
+    var x1 = pos.e(1);
+    if(x1 > this.canvas.width)
+      x1 = 0;
+    if(x1 < 0)
+      x1 = this.canvas.width;
+
+    var x2 = pos.e(2);
+    if(x2 > this.canvas.height)
+      x2 = 0;
+    if(x2 < 0)
+      x2 = this.canvas.height;
+
+
+    obj.pos = geo.Vector.create([x1, x2]);
+
+    return obj;
+  },
+
+  /**
    * Draw a shape at the specified position on the canvas
    *
    * @param  {[type]} pos   [description]
