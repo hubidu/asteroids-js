@@ -1,5 +1,6 @@
 var geo = require('./geo');
 var Ship = require('./ship');
+var Asteroid = require('./asteroid');
 var Game = require('./game');
 
 window.onload = function() {
@@ -7,15 +8,23 @@ window.onload = function() {
   var canvas = document.getElementById("canvas");
   var game = new Game(canvas);
   var ship = new Ship();
+  var asteroids = [ new Asteroid(), new Asteroid(), new Asteroid(), new Asteroid() ];
 
   function render(timestamp) {
       // Reset canvas
       // TODO: Optimize: Just clear areas which need to be redrawn
       game.clear();
 
-      // Draw the ship
+      // Check collisions
+
+      // Draw objects
       ship = game.flipOver(ship);
       game.draw(ship);
+
+      asteroids.forEach(function(asteroid) {
+        game.flipOver(asteroid);
+        game.draw(asteroid);
+      });
 
       window.requestAnimationFrame(render);
   }

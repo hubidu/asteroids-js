@@ -27,3 +27,8 @@ Another crappy asteroids game in the browser
 - When the space ship collides with an asteroid it should explode
 - The space ship should be able to shoot asteroids (by pressing the space bar)
 - Big asteroids should break up into smaller asteroids when shot, small asteroids should disappear
+
+## More Backlog ideas
+
+- Network/Multiplayer asteroids
+- AI: Asteroids Bot which can play the game
