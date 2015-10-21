@@ -10,10 +10,12 @@ window.onload = function() {
 
   function render(timestamp) {
       // Reset canvas
+      // TODO: Optimize: Just clear areas which need to be redrawn
       game.clear();
 
       // Draw the ship
-      game.draw(ship.pos, ship.shape);
+      // REFACTOR: Draw the game object
+      game.draw(ship);
 
       window.requestAnimationFrame(render);
   }

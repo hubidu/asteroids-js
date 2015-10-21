@@ -8,8 +8,11 @@ function Ship() {
   this.shape = new geo.Polygon([ geo.Vector.create([0, 0]), geo.Vector.create([10, 0]), geo.Vector.create([5, 15]), geo.Vector.create([0, 0]) ], geo.Vector.create([5, 5]));
   this.shape.scale(2);
 
+  // Current position of the ship
   this.pos = geo.Vector.create([200, 100]);
+  // Direction into which ship is heading
   this.dir = geo.Vector.create([0, 1]);
+  // Ship speed vector
   this.speed = geo.Vector.create([0, 0]);
 
   setInterval(function() {

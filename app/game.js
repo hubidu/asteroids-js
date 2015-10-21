@@ -13,7 +13,11 @@ Game.prototype = {
    * @param  {[type]} pos   [description]
    * @param  {[type]} shape [description]
    */
-  draw: function(pos, shape) {
+  draw: function(obj) {
+    var pos = obj.pos;
+    var shape = obj.shape;
+    var speed = obj.pos.add(obj.speed) || geo.Vector.create([0, 0]);
+
     var ctx = this.ctx;
 
      ctx.beginPath();
@@ -28,7 +32,13 @@ Game.prototype = {
          ctx.lineTo(p.e(1), p.e(2));
        }
      } );
+     ctx.stroke();
 
+     // Draw the speed vector
+     ctx.beginPath();
+     ctx.moveTo(pos.e(1), pos.e(2));
+     ctx.lineTo(speed.e(1), speed.e(2));
+     ctx.strokeStyle = "#ff0000";
      ctx.stroke();
   },
 
