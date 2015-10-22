@@ -2,6 +2,13 @@
 
 Another crappy asteroids game in the browser
 
+## Skills to be trained
+- [js] Javascript(< ES 5)
+- [testing] Unit Tests
+- [problemsolving]Refresher on highschool Math
+- [frontend] HTML canvas/Animations
+- [agile] Evolving a project in an agile way 
+
 ## Resources
 - eshint
 - [1 hr] Egghead canvas videos: https://egghead.io/series/learn-html5-graphics-and-animation
@@ -30,10 +37,20 @@ Another crappy asteroids game in the browser
   * with a constant speed depending on it's size (smaller is faster)
   * when an asteroid leaves the game area it will reappear at the opposite side of the game area
 - When the space ship collides with an asteroid it should explode
-- The space ship should be able to shoot asteroids (by pressing the space bar)
+  * and the game should start over
+  * add debugging capabilities to the game so one can see if collision detection works properly
+- The space ship should be able to fire shots
+  * there should only be one short visible at the same time
+  * if the shot leaves the game area it should disappear
 - Big asteroids should break up into smaller asteroids when shot, small asteroids should disappear
+- The game should have levels with increasing difficulty
+  * a level is finished successfully if there are no more asteroids
+  * there should be a short success message displayed to the user at the end of a level
+  * the new level should have more or faster asteroids
+- From time to time a flying saucer should show up and home into the space ship
 
 ## More Backlog ideas
 
+- Physics: Asteroids should attract the space ship
 - Network/Multiplayer asteroids
 - AI: Asteroids Bot which can play the game

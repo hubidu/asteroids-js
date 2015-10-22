@@ -60,7 +60,7 @@ Game.prototype = {
     } );
     ctx.stroke();
 
-    // Draw the speed vector
+    // DEBUG: Draw the speed vector
     ctx.strokeStyle = "red";
     ctx.beginPath();
     var x1 = pos.add(obj.shape.center);
@@ -68,6 +68,10 @@ Game.prototype = {
     ctx.moveTo(x1.e(1), x1.e(2));
     ctx.lineTo(x2.e(1), x2.e(2));
     ctx.stroke();
+
+    // DEBUG: Draw the bounding rect
+    var rect = obj.shape.rect().translate(obj.pos);
+    ctx.strokeRect(rect.p1.e(1), rect.p1.e(2), rect.width(), rect.height());
   },
 
   /**

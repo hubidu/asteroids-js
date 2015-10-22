@@ -29,6 +29,14 @@ Rect.prototype = {
    */
   translate: function(pos) {
     return new Rect(this.p1.add(pos), this.p2.add(pos));
+  },
+
+  width: function() {
+    return this.p2.e(1) - this.p1.e(1);
+  },
+
+  height: function() {
+    return this.p2.e(2) - this.p1.e(2);
   }
 };
 
