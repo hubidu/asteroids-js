@@ -22,6 +22,13 @@ Rect.prototype = {
       return false;
     else
       return true;
+  },
+
+  /**
+   * Move the rectangle to the specified position
+   */
+  translate: function(pos) {
+    return new Rect(this.p1.add(pos), this.p2.add(pos));
   }
 };
 
