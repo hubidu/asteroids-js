@@ -1,5 +1,5 @@
 var geo = require('./geo');
-
+var Bullet = require('./bullet');
 /**
  * Constants
  */
@@ -9,7 +9,8 @@ var NullVector = geo.Vector.create([0, 0]);
 
 function Ship() {
   // The shape of the ship and its center position
-  this.shape = new geo.Polygon([ geo.Vector.create([0, 0]), geo.Vector.create([10, 0]), geo.Vector.create([5, 15]), geo.Vector.create([0, 0]) ], geo.Vector.create([5, 5]));
+  var centerPoint = geo.Vector.create([5, 5]);
+  this.shape = new geo.Polygon([ geo.Vector.create([0, 0]), geo.Vector.create([10, 0]), geo.Vector.create([5, 15]), geo.Vector.create([0, 0]) ], centerPoint);
   this.shape.scale(2);
 
   // Current position of the ship
@@ -23,6 +24,7 @@ function Ship() {
   setInterval(function() {
     // Move ship with current speed vector
     this.pos = this.pos.add(this.speed);
+    this.center = this.pos.add(centerPoint);
   }.bind(this), 20);
 }
 
@@ -58,7 +60,7 @@ Ship.prototype = {
      * Fire laser
      */
     fire: function() {
-      console.log('Should be firing!');
+      return new Bullet(this.center, this.dir);
     },
 
     /**

@@ -40,7 +40,7 @@ window.onload = function() {
       } else if(e.keyCode === 38) {
         game.onShipThrust();
         //ship.thrust();
-      } else if(e.keyCode === 30) {
+      } else if(e.keyCode === 32) {
         game.onShipFires();
       } else {
         console.log(e);

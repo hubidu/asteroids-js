@@ -114,10 +114,15 @@ Game.prototype = {
         this.init();
       }
 
-      // TODO: Advance the game objects
+      // Check game boundaries
       this.ship = this.flipOver(this.ship);
       this.asteroids.forEach(function(asteroid) {
         this.flipOver(asteroid);
+      }.bind(this));
+
+      // TODO: Advance the game objects
+      this.objects.forEach(function(obj) {
+        if(obj.move) obj.move();
       }.bind(this));
   },
 
@@ -139,7 +144,7 @@ Game.prototype = {
    * Ship fires a bullet
    */
   onShipFires: function() {
-
+    this.objects.push(this.ship.fire());
   },
 
   onShipTurnLeft: function() {
