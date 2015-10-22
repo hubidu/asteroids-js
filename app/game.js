@@ -1,8 +1,13 @@
 var geo = require('./geo');
+var Ship = require('./ship');
+var Asteroid = require('./asteroid');
 
 function Game(canvas) {
   this.canvas = canvas;
   this.ctx = canvas.getContext("2d");
+
+  // Game level
+  this.level = 1;
 }
 
 Game.prototype = {
@@ -80,6 +85,73 @@ Game.prototype = {
   clear: function() {
     var ctx = this.ctx;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+  },
+
+
+  /**
+   * Initialize the game
+   */
+  init: function() {
+    this.level++;
+    this.ship = new Ship();
+    this.asteroids = [ new Asteroid(), new Asteroid(), new Asteroid(), new Asteroid() ];
+
+    this.objects = [];
+    this.objects.push(this.ship);
+    this.objects = this.objects.concat(this.asteroids);
+  },
+
+  /**
+   * Advance the game (e. g. move game objects)
+   */
+  step: function() {
+      // Check collisions with ship
+      var collisionWithAsteroid = _.any(this.asteroids, function(asteroid) {
+        return this.ship.collisionWith(asteroid);
+      }.bind(this));
+      if(collisionWithAsteroid) {
+        // Restart game
+        this.init();
+      }
+
+      // TODO: Advance the game objects
+      this.ship = this.flipOver(this.ship);
+      this.asteroids.forEach(function(asteroid) {
+        this.flipOver(asteroid);
+      }.bind(this));
+  },
+
+  /**
+   * Render the game state
+   */
+  render: function() {
+      // Reset canvas
+      // TODO: Optimize: Just clear areas which need to be redrawn
+      this.clear();
+
+      // Draw objects
+      this.objects.forEach(function(obj) {
+        this.draw(obj);
+      }.bind(this));
+  },
+
+  /**
+   * Ship fires a bullet
+   */
+  onShipFires: function() {
+
+  },
+
+  onShipTurnLeft: function() {
+    this.ship.turnLeft();
+  },
+
+  onShipTurnRight: function() {
+    this.ship.turnRight();
+  },
+
+  onShipThrust: function() {
+    this.ship.thrust();
   }
 
 };

@@ -7,7 +7,7 @@ Another crappy asteroids game in the browser
 - [testing] Unit Tests
 - [problemsolving]Refresher on highschool Math
 - [frontend] HTML canvas/Animations
-- [agile] Evolving a project in an agile way 
+- [agile] Evolving a project in an agile way
 
 ## Resources
 - eshint
@@ -51,6 +51,7 @@ Another crappy asteroids game in the browser
 
 ## More Backlog ideas
 
+- Physics: Asteroids should bounce-off each other
 - Physics: Asteroids should attract the space ship
 - Network/Multiplayer asteroids
 - AI: Asteroids Bot which can play the game
