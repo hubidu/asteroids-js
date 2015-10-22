@@ -12,6 +12,7 @@
   "devDependencies": {
     "sylvester": "0.0.21",
     "webpack": "~1.12.2",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "chai": "~3.4.0"
   }
 }

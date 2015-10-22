@@ -1,19 +1,27 @@
 var geo = require('sylvester');
 
-function Rect(x1, x2) {
-  this.x1 = x1;
-  this.x2 = x2;
+/**
+ * Construct a rectangle from the lower left
+ * point and the upper right point
+ */
+function Rect(p1, p2) {
+  this.p1 = p1;
+  this.p2 = p2;
 }
 
 Rect.prototype = {
   /**
    * Check if two rectangles overlap
+   * (see http://stackoverflow.com/questions/13390333/two-rectangles-intersection)
+   *
+   *    p1    p2          o.p1    o.p2
+   * ((X,Y),(A,B)) and ((X1,Y1),(A1,B1))
    */
   intersects: function(another) {
-      return (this.x1.e(1) <= another.x1.e(1) && another.x1.e(1) <= this.x2.e(1) &&
-             this.x1.e(2) <= another.x1.e(2) && another.x1.e(2) <= this.x2.e(2)) ||
-             (this.x1.e(1) <= another.x2.e(1) && another.x2.e(1) <= this.x2.e(1) &&
-             this.x1.e(2) <= another.x2.e(2) && another.x2.e(2) <= this.x2.e(2));
+    if (this.p2.e(1) < another.p1.e(1) || another.p2.e(1) < this.p1.e(1) || this.p2.e(2) < another.p1.e(2) || another.p2.e(2) < this.p1.e(2))
+      return false;
+    else
+      return true;
   }
 };
 
