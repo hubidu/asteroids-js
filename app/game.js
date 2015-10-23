@@ -162,7 +162,7 @@ Game.prototype = {
   init: function() {
     this.ship = new Ship();
     this.asteroids = [];
-    for(var i=0; i<6 + this.level; i++) {
+    for(var i=0; i<2 + this.level; i++) {
       this.asteroids.push(new Asteroid());
     }
 
@@ -171,8 +171,6 @@ Game.prototype = {
       asteroids: this.asteroids,
       bullets: []
     };
-    //this.objects.push(this.ship);
-    //this.objects = this.objects.concat(this.asteroids);
   },
 
   nextLevel: function() {

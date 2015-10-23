@@ -48,6 +48,9 @@ Another crappy asteroids game in the browser
   * a level is finished successfully if there are no more asteroids
   * there should be a short success message displayed to the user at the end of a level
   * the new level should have more or faster asteroids
+- The player should earn points by shooting asteroids
+- The space ship should explode nicely when hit by an asteroid
+- The player should be able to activate a shield which protects the ship from asteroids
 - From time to time a flying saucer should show up and home into the space ship
 
 ## More Backlog ideas
