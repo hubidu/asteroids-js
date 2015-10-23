@@ -19,6 +19,11 @@ function Asteroid() {
 
 Asteroid.prototype = {
 
+  explode: function() {
+    // TODO: Split up in smaller parts
+    console.log('BOOM');
+  },
+
   /**
    * Move the asteroid
    */

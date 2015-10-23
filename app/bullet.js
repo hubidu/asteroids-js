@@ -10,6 +10,13 @@ function Bullet(start, direction) {
 
 Bullet.prototype = {
 
+  hits: function(obj) {
+    // Make a quick check using the objects bounding rectangles
+    var rect1 = this.shape.rect().translate(this.pos);
+    var rect2 = obj.shape.rect().translate(obj.pos);
+    return rect1.intersects(rect2);
+  },
+
   /**
    * Move the bulleet
    */

@@ -114,6 +114,11 @@ function Circle(center, radius) {
 
 Circle.prototype = {
 
+  rect: function() {
+      var p1 = this.center;
+      var p2 = this.center;
+      return new Rect(p1, p2);
+  }
 };
 
 //

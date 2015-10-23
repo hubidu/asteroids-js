@@ -140,10 +140,9 @@ Game.prototype = {
    * Initialize the game
    */
   init: function() {
-    this.level++;
     this.ship = new Ship();
     this.asteroids = [];
-    for(var i=0; i<8; i++) {
+    for(var i=0; i<8 + this.level; i++) {
       this.asteroids.push(new Asteroid());
     }
 
@@ -156,6 +155,11 @@ Game.prototype = {
     //this.objects = this.objects.concat(this.asteroids);
   },
 
+  nextLevel: function() {
+    this.level++;
+    this.init();
+  },
+
   /**
    * Advance the game (e. g. move game objects)
    */
@@ -163,6 +167,10 @@ Game.prototype = {
       var ship = this.objects.ship;
       var asteroids = this.objects.asteroids;
       var bullets = this.objects.bullets;
+
+      if(asteroids.length === 0) {
+        this.nextLevel();
+      }
 
       // Check collisions with ship
       var collisionWithAsteroid = _.any(asteroids, function(asteroid) {
@@ -179,13 +187,25 @@ Game.prototype = {
         this.area.flipOver(asteroid);
       }.bind(this));
 
-      // Remove bullet when out-of-bounds
       bullets.forEach(function(bullet) {
-        if(this.area.isOutOfArea(bullet)) {
-          var idx = this.objects.bullets.indexOf(bullet);
+        // TODO: Check if bullet hits an asteroid
+        var asteroidBeingHit = _.find(asteroids, function(asteroid) {
+          return bullet.hits(asteroid);
+        });
+
+        if(asteroidBeingHit) {
+          // TODO: Explode asteroid
+          asteroidBeingHit.explode();
+
+          var idx = asteroids.indexOf(asteroidBeingHit);
+          asteroids.splice(idx, 1);
+        }
+
+        // Remove bullet when hit or out-of-bounds
+        if(asteroidBeingHit || this.area.isOutOfArea(bullet)) {
+          idx = this.objects.bullets.indexOf(bullet);
           this.objects.bullets.splice(idx, 1);
         }
-        // TODO: Check if bullet hits an asteroid
       }.bind(this));
 
 
