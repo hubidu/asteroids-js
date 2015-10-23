@@ -113,6 +113,18 @@ Polygon.prototype = {
 // EXPORTS
 //
 
+/**
+ * Create a random unit vector
+ */
+module.exports.randomVector = function() {
+  var x = Math.random();
+  var xsign = Math.random() > .5 ? 1: -1;
+  var y = Math.random();
+  var ysign = Math.random() > .5 ? 1: -1;
+
+  return geo.Vector.create([xsign * x, ysign * y]);
+};
+
 module.exports.Rect = Rect;
 module.exports.Polygon = Polygon;
 module.exports.Vector = geo.Vector;

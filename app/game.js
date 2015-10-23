@@ -93,7 +93,6 @@ GameArea.prototype = {
 };
 
 function Game(canvas) {
-
   // The game area
   this.area = new GameArea(canvas);
 
@@ -102,10 +101,6 @@ function Game(canvas) {
 }
 
 Game.prototype = {
-
-
-
-
 
   /**
    * Initialize the game

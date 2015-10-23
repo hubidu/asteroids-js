@@ -14,7 +14,7 @@ function Asteroid() {
   // Choose a random direction
   this.dir = geo.Vector.create([ Math.random(), Math.random() ]);
   // Choose a random speed
-  this.speed = geo.Vector.create([ Math.random(), Math.random() ]).multiply(10 / this.size);
+  this.speed = geo.randomVector().multiply(10 / this.size);
 }
 
 Asteroid.prototype = {
