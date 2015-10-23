@@ -19,7 +19,8 @@ function Ship() {
   this.dir = geo.Vector.create([0, 1]);
   // Ship speed vector
   this.speed = geo.Vector.create([0, 0]);
-
+  // Center of the object
+  this.center = this.pos.add(this.shape.center);
 }
 
 
@@ -54,6 +55,7 @@ Ship.prototype = {
      * Fire laser
      */
     fire: function() {
+      // TODO: center is obviously not correct
       return new Bullet(this.center, this.dir);
     },
 
@@ -72,7 +74,7 @@ Ship.prototype = {
      */
     step: function() {
       this.pos = this.pos.add(this.speed);
-      this.center = this.pos.add(this.centerPoint);
+      this.center = this.pos.add(this.shape.center);
     }
 
 
