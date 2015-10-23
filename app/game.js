@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var geo = require('./geo');
 var Ship = require('./ship');
 var Asteroid = require('./asteroid');
@@ -142,7 +143,7 @@ Game.prototype = {
   init: function() {
     this.ship = new Ship();
     this.asteroids = [];
-    for(var i=0; i<8 + this.level; i++) {
+    for(var i=0; i<6 + this.level; i++) {
       this.asteroids.push(new Asteroid());
     }
 
@@ -168,6 +169,7 @@ Game.prototype = {
       var asteroids = this.objects.asteroids;
       var bullets = this.objects.bullets;
 
+      // Successfully completed a level
       if(asteroids.length === 0) {
         this.nextLevel();
       }
@@ -194,8 +196,8 @@ Game.prototype = {
         });
 
         if(asteroidBeingHit) {
-          // TODO: Explode asteroid
-          asteroidBeingHit.explode();
+          // Explode asteroid
+          this.objects.asteroids = asteroids = asteroids.concat(asteroidBeingHit.explode());
 
           var idx = asteroids.indexOf(asteroidBeingHit);
           asteroids.splice(idx, 1);
