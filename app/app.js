@@ -7,7 +7,10 @@ window.onload = function() {
 
   var canvas = document.getElementById("canvas");
 
-  var game = new Game(canvas);
+  var options = {
+    debug: false
+  }
+  var game = new Game(canvas, options);
   game.init();
 
   /**
@@ -25,7 +28,7 @@ window.onload = function() {
 
       window.requestAnimationFrame(render);
   }, 20);
-  // window.requestAnimationFrame(render);
+  //window.requestAnimationFrame(render);
 
    /**
     * Keyboard Events

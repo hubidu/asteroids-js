@@ -2,7 +2,8 @@ var geo = require('./geo');
 var Ship = require('./ship');
 var Asteroid = require('./asteroid');
 
-function GameArea(canvas) {
+function GameArea(canvas, options) {
+  this.options = options || {};
   this.canvas = canvas;
   this.ctx = canvas.getContext("2d");
 
@@ -77,24 +78,27 @@ GameArea.prototype = {
     ctx.stroke();
 
     // DEBUG: Draw the speed vector
-    ctx.strokeStyle = "red";
-    ctx.beginPath();
-    var x1 = pos.add(obj.shape.center);
-    var x2 = pos.add(speed);
-    ctx.moveTo(x1.e(1), x1.e(2));
-    ctx.lineTo(x2.e(1), x2.e(2));
-    ctx.stroke();
-
+    if(this.options.debug) {
+      ctx.strokeStyle = "red";
+      ctx.beginPath();
+      var x1 = pos.add(obj.shape.center);
+      var x2 = pos.add(speed);
+      ctx.moveTo(x1.e(1), x1.e(2));
+      ctx.lineTo(x2.e(1), x2.e(2));
+      ctx.stroke();
+    }
     // DEBUG: Draw the bounding rect
-    var rect = obj.shape.rect().translate(obj.pos);
-    ctx.strokeRect(rect.p1.e(1), rect.p1.e(2), rect.width(), rect.height());
+    if(this.options.debug) {
+      var rect = obj.shape.rect().translate(obj.pos);
+      ctx.strokeRect(rect.p1.e(1), rect.p1.e(2), rect.width(), rect.height());
+    }
   }
 
 };
 
-function Game(canvas) {
+function Game(canvas, options) {
   // The game area
-  this.area = new GameArea(canvas);
+  this.area = new GameArea(canvas, options);
 
   // Game level
   this.level = 1;
