@@ -13,6 +13,7 @@ Another crappy asteroids game in the browser
 - eshint
 - [1 hr] Egghead canvas videos: https://egghead.io/series/learn-html5-graphics-and-animation
 - [0.5 hr] Egghead webpack videos: https://egghead.io/series/angular-and-webpack-for-modular-applications
+- [? hr] https://developers.google.com/web/fundamentals/performance/performance-codelab/?hl=en
 
 ## Project Backlog
 

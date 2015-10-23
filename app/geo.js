@@ -107,7 +107,14 @@ Polygon.prototype = {
   }
 };
 
+function Circle(center, radius) {
+  this.center = center;
+  this.radius = radius;
+}
 
+Circle.prototype = {
+
+};
 
 //
 // EXPORTS
@@ -125,6 +132,7 @@ module.exports.randomVector = function() {
   return geo.Vector.create([xsign * x, ysign * y]);
 };
 
+module.exports.Circle = Circle;
 module.exports.Rect = Rect;
 module.exports.Polygon = Polygon;
 module.exports.Vector = geo.Vector;

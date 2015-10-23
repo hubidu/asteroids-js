@@ -2,6 +2,8 @@ var geo = require('./geo');
 var Ship = require('./ship');
 var Asteroid = require('./asteroid');
 
+var TWOPI = 2*Math.PI;
+
 function GameArea(canvas, options) {
   this.options = options || {};
   this.canvas = canvas;
@@ -46,7 +48,7 @@ GameArea.prototype = {
    */
   clear: function() {
     var ctx = this.ctx;
-    ctx.clearRect(0, 0, this.width, this.height);
+    ctx.fillRect(0, 0, this.width, this.height);
   },
 
   /**
@@ -56,13 +58,33 @@ GameArea.prototype = {
    * @param  {[type]} shape [description]
    */
   draw: function(obj) {
+    // TODO: REFACTOR this. Ugly and not object-oriented
+    if(obj.shape instanceof geo.Polygon) {
+        this._drawPolygon(obj);
+    } else if(obj.shape instanceof geo.Circle) {
+        this._drawCircle(obj);
+    }
+  },
+
+  _drawCircle: function(obj) {
+    var ctx = this.ctx;
+    var shape = obj.shape;
+    var pos = obj.pos.add(obj.shape.center);
+
+    //ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(pos.e(1), pos.e(2), shape.radius, 0, TWOPI);
+    ctx.stroke();
+  },
+
+  _drawPolygon: function(obj) {
     var pos = obj.pos;
     var shape = obj.shape;
     var speed = obj.shape.center.add(obj.speed.multiply(3)) || obj.shape.center;
 
     var ctx = this.ctx;
 
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = "white";
     ctx.beginPath();
 
     shape.points.forEach(function(point) {
