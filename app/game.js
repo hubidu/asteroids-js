@@ -90,20 +90,39 @@ GameArea.prototype = {
     var pos = obj.pos;
     var shape = obj.shape;
     var speed = obj.shape.center.add(obj.speed.multiply(3)) || obj.shape.center;
+    var center = pos.add(obj.shape.center);
 
     var ctx = this.ctx;
 
-    ctx.strokeStyle = "white";
+    var actualPoints = shape.points.map(function(point) {
+      var p = geo.Vector.create(pos);
+      return p.add(point);
+    });
+
+    // Outline
+    ctx.strokeStyle = "#ddd";
+    ctx.lineWidth = 2;
     ctx.beginPath();
 
-    shape.points.forEach(function(point) {
-     var p = geo.Vector.create(pos);
-     p = p.add(point);
-
-     if (point === shape.points[0]) {
+    actualPoints.forEach(function(p) {
+     if (p === actualPoints[0]) {
        ctx.moveTo(p.e(1), p.e(2));
      } else {
        ctx.lineTo(p.e(1), p.e(2));
+     }
+    } );
+    ctx.stroke();
+
+    // Fill
+    ctx.strokeStyle = "#999";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    actualPoints.forEach(function(p) {
+     if (p === actualPoints[0]) {
+       ctx.moveTo(p.e(1), p.e(2));
+     } else {
+       ctx.lineTo(center.e(1), center.e(2));
+       ctx.moveTo(p.e(1), p.e(2));
      }
     } );
     ctx.stroke();
@@ -112,7 +131,7 @@ GameArea.prototype = {
     if(this.options.debug) {
       ctx.strokeStyle = "red";
       ctx.beginPath();
-      var x1 = pos.add(obj.shape.center);
+      var x1 = center;
       var x2 = pos.add(speed);
       ctx.moveTo(x1.e(1), x1.e(2));
       ctx.lineTo(x2.e(1), x2.e(2));
