@@ -94,7 +94,10 @@ Game.prototype = {
   init: function() {
     this.level++;
     this.ship = new Ship();
-    this.asteroids = [ new Asteroid(), new Asteroid(), new Asteroid(), new Asteroid() ];
+    this.asteroids = [];
+    for(var i=0; i<8; i++) {
+      this.asteroids.push(new Asteroid());
+    }
 
     this.objects = [];
     this.objects.push(this.ship);
@@ -120,9 +123,12 @@ Game.prototype = {
         this.flipOver(asteroid);
       }.bind(this));
 
-      // TODO: Advance the game objects
+      // Advance the game objects
       this.objects.forEach(function(obj) {
-        if(obj.move) obj.move();
+        if(obj.step) obj.step();
+
+        // TODO: Remove objects when dead/killed
+
       }.bind(this));
   },
 

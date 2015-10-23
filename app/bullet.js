@@ -10,7 +10,10 @@ function Bullet(start, direction) {
 
 Bullet.prototype = {
 
-  move: function() {
+  /**
+   * Move the bulleet
+   */
+  step: function() {
     this.pos = this.pos.add(this.speed);
   }
 

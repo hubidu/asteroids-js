@@ -10,22 +10,22 @@ window.onload = function() {
   var game = new Game(canvas);
   game.init();
 
-
   /**
    * Game render loop
    */
   function render(timestamp) {
-      game.step();
-
       game.render();
-
-      window.requestAnimationFrame(render);
   }
 
   /**
    * Game loop
    */
-   window.requestAnimationFrame(render);
+  setInterval(function() {
+      game.step();
+
+      window.requestAnimationFrame(render);
+  }, 20);
+  // window.requestAnimationFrame(render);
 
    /**
     * Keyboard Events
