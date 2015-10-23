@@ -2,15 +2,17 @@ var geo = require('./geo');
 var Ship = require('./ship');
 var Asteroid = require('./asteroid');
 
-function Game(canvas) {
+function GameArea(canvas) {
   this.canvas = canvas;
   this.ctx = canvas.getContext("2d");
 
-  // Game level
-  this.level = 1;
+  // Game area width
+  this.width = canvas.width;
+  // Game area height
+  this.height = canvas.height;
 }
 
-Game.prototype = {
+GameArea.prototype = {
 
   /**
    * Check if the game object reached the game area
@@ -20,21 +22,30 @@ Game.prototype = {
     var pos = obj.pos;
 
     var x1 = pos.e(1);
-    if(x1 > this.canvas.width)
+    if(x1 > this.width)
       x1 = 0;
     if(x1 < 0)
-      x1 = this.canvas.width;
+      x1 = this.width;
 
     var x2 = pos.e(2);
-    if(x2 > this.canvas.height)
+    if(x2 > this.height)
       x2 = 0;
     if(x2 < 0)
-      x2 = this.canvas.height;
+      x2 = this.height;
 
 
     obj.pos = geo.Vector.create([x1, x2]);
 
     return obj;
+  },
+
+
+  /**
+   * Clear the game canvas for redrawing
+   */
+  clear: function() {
+    var ctx = this.ctx;
+    ctx.clearRect(0, 0, this.width, this.height);
   },
 
   /**
@@ -77,15 +88,23 @@ Game.prototype = {
     // DEBUG: Draw the bounding rect
     var rect = obj.shape.rect().translate(obj.pos);
     ctx.strokeRect(rect.p1.e(1), rect.p1.e(2), rect.width(), rect.height());
-  },
+  }
 
-  /**
-   * Clear the game canvas for redrawing
-   */
-  clear: function() {
-    var ctx = this.ctx;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  },
+};
+
+function Game(canvas) {
+
+  // The game area
+  this.area = new GameArea(canvas);
+
+  // Game level
+  this.level = 1;
+}
+
+Game.prototype = {
+
+
+
 
 
   /**
@@ -118,9 +137,9 @@ Game.prototype = {
       }
 
       // Check game boundaries
-      this.ship = this.flipOver(this.ship);
+      this.ship = this.area.flipOver(this.ship);
       this.asteroids.forEach(function(asteroid) {
-        this.flipOver(asteroid);
+        this.area.flipOver(asteroid);
       }.bind(this));
 
       // Advance the game objects
@@ -138,11 +157,11 @@ Game.prototype = {
   render: function() {
       // Reset canvas
       // TODO: Optimize: Just clear areas which need to be redrawn
-      this.clear();
+      this.area.clear();
 
       // Draw objects
       this.objects.forEach(function(obj) {
-        this.draw(obj);
+        this.area.draw(obj);
       }.bind(this));
   },
 
