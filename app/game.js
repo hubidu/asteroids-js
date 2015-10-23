@@ -16,6 +16,14 @@ function GameArea(canvas, options) {
 }
 
 GameArea.prototype = {
+  isOutOfArea: function(obj) {
+    var pos = obj.pos;
+
+    var x1 = pos.e(1);
+    var x2 = pos.e(2);
+
+    return x1 > this.width || x1 < 0 || x2 > this.height || x2 < 0;
+  },
 
   /**
    * Check if the game object reached the game area
@@ -139,18 +147,26 @@ Game.prototype = {
       this.asteroids.push(new Asteroid());
     }
 
-    this.objects = [];
-    this.objects.push(this.ship);
-    this.objects = this.objects.concat(this.asteroids);
+    this.objects = {
+      ship: this.ship,
+      asteroids: this.asteroids,
+      bullets: []
+    };
+    //this.objects.push(this.ship);
+    //this.objects = this.objects.concat(this.asteroids);
   },
 
   /**
    * Advance the game (e. g. move game objects)
    */
   step: function() {
+      var ship = this.objects.ship;
+      var asteroids = this.objects.asteroids;
+      var bullets = this.objects.bullets;
+
       // Check collisions with ship
-      var collisionWithAsteroid = _.any(this.asteroids, function(asteroid) {
-        return this.ship.collisionWith(asteroid);
+      var collisionWithAsteroid = _.any(asteroids, function(asteroid) {
+        return ship.collisionWith(asteroid);
       }.bind(this));
       if(collisionWithAsteroid) {
         // Restart game
@@ -158,39 +174,53 @@ Game.prototype = {
       }
 
       // Check game boundaries
-      this.ship = this.area.flipOver(this.ship);
-      this.asteroids.forEach(function(asteroid) {
+      ship = this.area.flipOver(ship);
+      this.objects.asteroids.forEach(function(asteroid) {
         this.area.flipOver(asteroid);
       }.bind(this));
 
-      // Advance the game objects
-      this.objects.forEach(function(obj) {
-        if(obj.step) obj.step();
-
-        // TODO: Remove objects when dead/killed
-
+      // Remove bullet when out-of-bounds
+      bullets.forEach(function(bullet) {
+        if(this.area.isOutOfArea(bullet)) {
+          var idx = this.objects.bullets.indexOf(bullet);
+          this.objects.bullets.splice(idx, 1);
+        }
+        // TODO: Check if bullet hits an asteroid
       }.bind(this));
+
+
+      // Advance the game objects
+      function moveObj(obj) {
+          obj.step();
+      }
+      ship.step();
+      asteroids.forEach(moveObj.bind(this));
+      bullets.forEach(moveObj.bind(this));
   },
 
   /**
    * Render the game state
    */
   render: function() {
+      function drawObj(obj) {
+        this.area.draw(obj);
+      }
       // Reset canvas
       // TODO: Optimize: Just clear areas which need to be redrawn
       this.area.clear();
 
       // Draw objects
-      this.objects.forEach(function(obj) {
-        this.area.draw(obj);
-      }.bind(this));
+      this.area.draw(this.objects.ship);
+      this.objects.asteroids.forEach(drawObj.bind(this));
+      this.objects.bullets.forEach(drawObj.bind(this));
   },
 
   /**
    * Ship fires a bullet
    */
   onShipFires: function() {
-    this.objects.push(this.ship.fire());
+    // TODO: Add to bullets
+    this.objects.bullets.push(this.ship.fire());
   },
 
   onShipTurnLeft: function() {
