@@ -5,11 +5,12 @@
   "main": "app/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack-dev-server --progress --colors"
+    "watch": "webpack-dev-server --progress --colors --inline --hot --content-base app/"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "sylvester": "0.0.21"
+    "sylvester": "0.0.21",
+    "webpack": "~1.12.2"
   }
 }

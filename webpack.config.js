@@ -3,8 +3,9 @@ var path = require('path');
 module.exports = {
     entry: "./app/app.js",
     output: {
-        path: "app",
-        filename: "bundle.js"
+       path: path.resolve(__dirname, "build"),
+       publicPath: "/game/",
+       filename: "bundle.js"
     },
     node: {
       fs: "empty"
