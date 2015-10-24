@@ -1,0 +1,15 @@
+{
+  "name": "oids",
+  "version": "0.0.0",
+  "description": "Simple js asteroids clone",
+  "main": "app/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack-dev-server --progress --colors"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sylvester": "0.0.21"
+  }
+}
