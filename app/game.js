@@ -33,3 +33,5 @@ Game.prototype = {
   }
 
 };
+
+module.exports = Game;
