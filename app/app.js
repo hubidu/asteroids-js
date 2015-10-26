@@ -21,14 +21,20 @@ window.onload = function() {
    * Game render loop
    */
   function render(timestamp) {
+      var start = Date.now();
       game.render();
+      var duration = Date.now() - start;
+      if(duration > 5) console.warn("Render duration: " + duration);
   }
 
   /**
    * Game loop
    */
   setInterval(function() {
+      var start = Date.now();
       game.step();
+      var duration = Date.now() - start;
+      if(duration > 5) console.warn("Game step duration: " + duration);
 
       window.requestAnimationFrame(render);
   }, 20);

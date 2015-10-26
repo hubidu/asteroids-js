@@ -57,10 +57,15 @@ GameArea.prototype = {
   /**
    * Clear the game canvas for redrawing
    */
-  clear: function() {
+  clear: function(shipVelocity) {
+    // Trying to make the background a little dynamic by translating it
+    // slightly against current ship velocity
+    shipVelocity = shipVelocity.multiply(-1);
+
     var ctx = this.ctx;
     //ctx.fillRect(0, 0, this.width, this.height);
-    ctx.drawImage(this.background, 0, 0, this.width, this.height);
+    // Using a nice image as background
+    ctx.drawImage(this.background, shipVelocity.e(1), shipVelocity.e(2), this.width, this.height);
   },
 
   /**
@@ -114,6 +119,7 @@ GameArea.prototype = {
        ctx.lineTo(p.e(1), p.e(2));
      }
     } );
+    ctx.lineJoin = 'bevel';
     ctx.stroke();
 
     // Fill
@@ -249,13 +255,26 @@ Game.prototype = {
       function drawObj(obj) {
         this.area.draw(obj);
       }
+      var ship = this.objects.ship;
+
       // Reset canvas
-      this.area.clear();
+      this.area.clear(ship.speed);
 
       // Draw objects
-      this.area.draw(this.objects.ship);
+      this.area.draw(ship);
+      var NumAsteroids = this.objects.asteroids.length;
+      for(var i = 0; i < NumAsteroids; i++) {
+        this.area.draw(this.objects.asteroids[i]);
+      }
+      var NumBullets = this.objects.bullets.length;
+      for(i = 0; i < NumBullets; i++) {
+        this.area.draw(this.objects.bullets[i]);
+      }
+      /*
+       * Seems to be a few ms slower
       this.objects.asteroids.forEach(drawObj.bind(this));
       this.objects.bullets.forEach(drawObj.bind(this));
+      */
   },
 
   /**
