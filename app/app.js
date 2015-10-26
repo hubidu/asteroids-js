@@ -6,11 +6,15 @@ var Game = require('./game');
 window.onload = function() {
 
   var canvas = document.getElementById("canvas");
+  var img  = document.getElementById("space");
+
+  //var ctx = canvas.getContext("2d");
+  //ctx.drawImage(img, 20, 20, 150, 180);
 
   var options = {
     debug: false
-  }
-  var game = new Game(canvas, options);
+  };
+  var game = new Game(canvas, img, options);
   game.init();
 
   /**

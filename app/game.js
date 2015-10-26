@@ -5,10 +5,13 @@ var Asteroid = require('./asteroid');
 
 var TWOPI = 2*Math.PI;
 
-function GameArea(canvas, options) {
+function GameArea(canvas, background, options) {
   this.options = options || {};
   this.canvas = canvas;
   this.ctx = canvas.getContext("2d");
+
+  // Background image
+  this.background = background;
 
   // Game area width
   this.width = canvas.width;
@@ -45,7 +48,6 @@ GameArea.prototype = {
     if(x2 < 0)
       x2 = this.height;
 
-
     obj.pos = geo.Vector.create([x1, x2]);
 
     return obj;
@@ -57,7 +59,8 @@ GameArea.prototype = {
    */
   clear: function() {
     var ctx = this.ctx;
-    ctx.fillRect(0, 0, this.width, this.height);
+    //ctx.fillRect(0, 0, this.width, this.height);
+    ctx.drawImage(this.background, 0, 0, this.width, this.height);
   },
 
   /**
@@ -146,9 +149,9 @@ GameArea.prototype = {
 
 };
 
-function Game(canvas, options) {
+function Game(canvas, background, options) {
   // The game area
-  this.area = new GameArea(canvas, options);
+  this.area = new GameArea(canvas, background, options);
 
   // Game level
   this.level = 1;
@@ -160,15 +163,15 @@ Game.prototype = {
    * Initialize the game
    */
   init: function() {
-    this.ship = new Ship();
-    this.asteroids = [];
+    var ship = new Ship();
+    var asteroids = [];
     for(var i=0; i<2 + this.level; i++) {
-      this.asteroids.push(new Asteroid());
+      asteroids.push(new Asteroid());
     }
 
     this.objects = {
-      ship: this.ship,
-      asteroids: this.asteroids,
+      ship: ship,
+      asteroids: asteroids,
       bullets: []
     };
   },
@@ -206,16 +209,18 @@ Game.prototype = {
         this.area.flipOver(asteroid);
       }.bind(this));
 
+      // Bullet hit an asteroid?
       bullets.forEach(function(bullet) {
-        // TODO: Check if bullet hits an asteroid
         var asteroidBeingHit = _.find(asteroids, function(asteroid) {
           return bullet.hits(asteroid);
         });
 
+        // We have an hit
         if(asteroidBeingHit) {
-          // Explode asteroid
+          // The asteroid will be split up in parts
           this.objects.asteroids = asteroids = asteroids.concat(asteroidBeingHit.explode());
 
+          // The hit asteroid will be removed
           var idx = asteroids.indexOf(asteroidBeingHit);
           asteroids.splice(idx, 1);
         }
@@ -245,7 +250,6 @@ Game.prototype = {
         this.area.draw(obj);
       }
       // Reset canvas
-      // TODO: Optimize: Just clear areas which need to be redrawn
       this.area.clear();
 
       // Draw objects
@@ -259,19 +263,19 @@ Game.prototype = {
    */
   onShipFires: function() {
     // TODO: Add to bullets
-    this.objects.bullets.push(this.ship.fire());
+    this.objects.bullets.push(this.objects.ship.fire());
   },
 
   onShipTurnLeft: function() {
-    this.ship.turnLeft();
+    this.objects.ship.turnLeft();
   },
 
   onShipTurnRight: function() {
-    this.ship.turnRight();
+    this.objects.ship.turnRight();
   },
 
   onShipThrust: function() {
-    this.ship.thrust();
+    this.objects.ship.thrust();
   }
 
 };

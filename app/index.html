@@ -4,12 +4,33 @@
 
         <style media="screen">
           body {
-            margin: 0 auto;
+            background-color: #000;
+          }
+
+          .content {
+            /*
+            position: relative;
+            top: 100px;
+            */
+
+            height: 600px;
+            width: 800px;
+            margin: 100px auto;
+          }
+
+
+          #space {
+            position: absolute;
+            right: 9999px;
           }
         </style>
     </head>
     <body>
-        <canvas id="canvas" width="600" height="480"></canvas>
+        <div class="content">
+          <canvas id="canvas" width="800" height="600"></canvas>
+
+          <img id="space" src="http://cdn.spacetelescope.org/archives/images/wallpaper1/heic0609a.jpg"/>
+        </div>
 
         <script type="text/javascript" src="/game/bundle.js" charset="utf-8"></script>
     </body>
