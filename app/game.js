@@ -109,6 +109,7 @@ GameArea.prototype = {
 
     // Outline
     ctx.strokeStyle = "#ddd";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
     ctx.lineWidth = 2;
     ctx.beginPath();
 
@@ -119,6 +120,7 @@ GameArea.prototype = {
        ctx.lineTo(p.e(1), p.e(2));
      }
     } );
+    ctx.fill();
     ctx.lineJoin = "bevel";
     ctx.stroke();
 

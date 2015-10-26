@@ -44,19 +44,17 @@ window.onload = function() {
     * Keyboard Events
     */
     window.onkeydown = function(e) {
+      // TODO: Auto-repeat keys here to prevent a lag. Stop repeating on keyup
       if(e.keyCode === 37) {
         game.onShipTurnLeft();
-        //ship.turnLeft();
       } else if(e.keyCode === 39) {
         game.onShipTurnRight();
-        //ship.turnRight();
       } else if(e.keyCode === 38) {
         game.onShipThrust();
-        //ship.thrust();
       } else if(e.keyCode === 32) {
         game.onShipFires();
       } else {
-        console.log(e);
+        //console.log(e);
       }
     };
 

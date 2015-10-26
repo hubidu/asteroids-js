@@ -18,7 +18,7 @@ function Ship(area) {
 
   // Engine fire shape when thrusting
   this.showEngineFire = false;
-  this.engineFire = new geo.Polygon([ geo.Vector.create([1, -2]), geo.Vector.create([3, -4]), geo.Vector.create([5, -2]), geo.Vector.create([7, -4]), geo.Vector.create([9, -2]) ], this.centerPoint);
+  this.engineFire = new geo.Polygon([ geo.Vector.create([1, -2]), geo.Vector.create([3, -6]), geo.Vector.create([5, -2]), geo.Vector.create([7, -6]), geo.Vector.create([9, -2]) ], this.centerPoint);
   this.engineFire.scale(1.5);
 
   // Current position of the ship
