@@ -1,5 +1,5 @@
-var geo = require('./geo');
-var Bullet = require('./bullet');
+var geo = require("./geo");
+var Bullet = require("./bullet");
 /**
  * Constants
  */
@@ -7,14 +7,22 @@ var Angle = Math.PI / 16;
 var Accel = 1; // px per time unit
 var NullVector = geo.Vector.create([0, 0]);
 
-function Ship() {
+function Ship(area) {
+  // The game area
+  this.area = area;
+
   // The shape of the ship and its center position
   this.centerPoint = geo.Vector.create([5, 5]);
   this.shape = new geo.Polygon([ geo.Vector.create([0, 0]), geo.Vector.create([10, 0]), geo.Vector.create([5, 15]), geo.Vector.create([0, 0]) ], this.centerPoint);
-  this.shape.scale(2);
+  this.shape.scale(1.5);
+
+  // Engine fire shape when thrusting
+  this.showEngineFire = false;
+  this.engineFire = new geo.Polygon([ geo.Vector.create([1, -2]), geo.Vector.create([3, -4]), geo.Vector.create([5, -2]), geo.Vector.create([7, -4]), geo.Vector.create([9, -2]) ], this.centerPoint);
+  this.engineFire.scale(1.5);
 
   // Current position of the ship
-  this.pos = geo.Vector.create([200, 100]);
+  this.pos = geo.Vector.create([Math.random() * area.width, Math.random() * area.height]);
   // Direction into which ship is heading
   this.dir = geo.Vector.create([0, 1]);
   // Ship speed vector
@@ -30,6 +38,7 @@ Ship.prototype = {
      */
     turnLeft: function() {
       this.shape.rotate(-Angle);
+      this.engineFire.rotate(-Angle);
       this.dir = this.dir.rotate(-Angle, NullVector);
     },
 
@@ -38,6 +47,7 @@ Ship.prototype = {
      */
     turnRight: function() {
       this.shape.rotate(Angle);
+      this.engineFire.rotate(Angle);
       this.dir = this.dir.rotate(Angle, NullVector);
     },
 
@@ -45,10 +55,13 @@ Ship.prototype = {
      * Accelerate the ship in current heading direction
      */
     thrust: function() {
-      // TODO: Scale the direction vector using the acceleration
+      // Scale the direction vector using the acceleration
       // and add to speed vector
       this.speed = this.speed.add(this.dir.multiply(Accel));
-      console.log(this.speed);
+      this.showEngineFire = true;
+      setTimeout(function() {
+        this.showEngineFire = false;
+      }.bind(this), 500);
     },
 
     /**
@@ -75,8 +88,17 @@ Ship.prototype = {
     step: function() {
       this.pos = this.pos.add(this.speed);
       this.center = this.pos.add(this.shape.center);
-    }
+    },
 
+    /**
+     * Draw the ship
+     */
+    draw: function() {
+      this.area.draw(this);
+      if(this.showEngineFire) {
+          this.area._drawPolygon(this.pos, this.engineFire, NullVector);
+      }
+    }
 
 };
 

@@ -1,7 +1,7 @@
 var geo = require('./geo');
 
 function Bullet(start, direction) {
-  this.shape = new geo.Circle(geo.Vector.create([0, 0]), 2);
+  this.shape = new geo.Circle(geo.Vector.create([0, 0]), 1);
 
   this.pos = start;
   this.dir = direction;

@@ -77,7 +77,7 @@ GameArea.prototype = {
   draw: function(obj) {
     // TODO: REFACTOR this. Ugly and not object-oriented
     if(obj.shape instanceof geo.Polygon) {
-        this._drawPolygon(obj);
+        this._drawPolygon(obj.pos, obj.shape, obj.speed);
     } else if(obj.shape instanceof geo.Circle) {
         this._drawCircle(obj);
     }
@@ -94,11 +94,11 @@ GameArea.prototype = {
     ctx.stroke();
   },
 
-  _drawPolygon: function(obj) {
-    var pos = obj.pos;
-    var shape = obj.shape;
-    var speed = obj.shape.center.add(obj.speed.multiply(3)) || obj.shape.center;
-    var center = pos.add(obj.shape.center);
+  _drawPolygon: function(pos, shape, speed) {
+    //var pos = obj.pos;
+    //var shape = obj.shape;
+    var speed = shape.center.add(speed.multiply(3)) || shape.center;
+    var center = pos.add(shape.center);
 
     var ctx = this.ctx;
 
@@ -119,10 +119,11 @@ GameArea.prototype = {
        ctx.lineTo(p.e(1), p.e(2));
      }
     } );
-    ctx.lineJoin = 'bevel';
+    ctx.lineJoin = "bevel";
     ctx.stroke();
 
     // Fill
+    /*
     ctx.strokeStyle = "#999";
     ctx.lineWidth = 1;
     ctx.beginPath();
@@ -135,6 +136,7 @@ GameArea.prototype = {
      }
     } );
     ctx.stroke();
+    */
 
     // DEBUG: Draw the speed vector
     if(this.options.debug) {
@@ -148,7 +150,7 @@ GameArea.prototype = {
     }
     // DEBUG: Draw the bounding rect
     if(this.options.debug) {
-      var rect = obj.shape.rect().translate(obj.pos);
+      var rect = shape.rect().translate(pos);
       ctx.strokeRect(rect.p1.e(1), rect.p1.e(2), rect.width(), rect.height());
     }
   }
@@ -169,7 +171,7 @@ Game.prototype = {
    * Initialize the game
    */
   init: function() {
-    var ship = new Ship();
+    var ship = new Ship(this.area);
     var asteroids = [];
     for(var i=0; i<2 + this.level; i++) {
       asteroids.push(new Asteroid());
@@ -261,7 +263,9 @@ Game.prototype = {
       this.area.clear(ship.speed);
 
       // Draw objects
-      this.area.draw(ship);
+      //this.area.draw(ship);
+      ship.draw();
+
       var NumAsteroids = this.objects.asteroids.length;
       for(var i = 0; i < NumAsteroids; i++) {
         this.area.draw(this.objects.asteroids[i]);

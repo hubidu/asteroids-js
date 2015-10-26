@@ -19,7 +19,7 @@ function Asteroid(options) {
   // Choose a random direction
   this.dir = geo.Vector.create([ Math.random(), Math.random() ]);
   // Choose a random speed
-  this.speed = geo.randomVector().multiply(10 / this.size);
+  this.speed = geo.randomVector().multiply(MaxSize / this.size);
 
   var rotSign = Math.random() > .5 ? 1 : -1;
   this.angle = rotSign * Angle * MaxSize / this.size;
