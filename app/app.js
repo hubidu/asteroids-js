@@ -1,15 +1,13 @@
-var _ = require('lodash');
+var _ = require("lodash");
 
-var Game = require('./game');
+var Game = require("./game");
 
 
 window.onload = function() {
-
+  // HTML5 canvas element to draw the game area on
   var canvas = document.getElementById("canvas");
+  // The game background image
   var img  = document.getElementById("space");
-
-  //var ctx = canvas.getContext("2d");
-  //ctx.drawImage(img, 20, 20, 150, 180);
 
   var options = {
     debug: false

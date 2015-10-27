@@ -7,6 +7,8 @@ var MinSize = 2;
 function Asteroid(options) {
   options = options || {};
 
+  this.area = options.area;
+
   // Choose a random size
   this.size = options.size || Math.random() * MaxSize + MinSize;
   var rnd = 2 - Math.random() * 4;
@@ -40,7 +42,7 @@ Asteroid.prototype = {
 
     var asteroids = [];
     for(var i = 0; i < this.size; i += size) {
-        asteroids.push(new Asteroid({size: size, pos: this.pos}));
+        asteroids.push(new Asteroid({area: this.area, size: size, pos: this.pos}));
     }
     return asteroids;
   },
@@ -53,6 +55,12 @@ Asteroid.prototype = {
     this.shape.rotate(this.angle / this.size);
     // Move it
     this.pos = this.pos.add(this.speed);
+  },
+
+  draw: function() {
+    this.area.ctx.strokeStyle = "rgb(104, 83, 240)";
+    this.area.ctx.fillStyle = "rgba(104, 83, 240, 0.4)";
+    this.area._drawPolygon(this.pos, this.shape, this.speed);
   }
 };
 

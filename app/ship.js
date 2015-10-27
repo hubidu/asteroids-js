@@ -1,4 +1,6 @@
 var geo = require("./geo");
+
+var animations = require("./ship_animation.js");
 var Bullet = require("./bullet");
 /**
  * Constants
@@ -8,6 +10,8 @@ var Accel = 1; // px per time unit
 var NullVector = geo.Vector.create([0, 0]);
 
 function Ship(area) {
+  this.dead = false;
+
   // The game area
   this.area = area;
 
@@ -68,14 +72,15 @@ Ship.prototype = {
      * Fire laser
      */
     fire: function() {
-      // TODO: center is obviously not correct
-      return new Bullet(this.center, this.dir);
+      return new Bullet(this.area, this.center, this.dir);
     },
 
     /**
      * Check if ship collides with given object
      */
     collisionWith: function(obj) {
+      if(this.dead) return false;
+
       // Make a quick check using the objects bounding rectangles
       var rect1 = this.shape.rect().translate(this.pos);
       var rect2 = obj.shape.rect().translate(obj.pos);
@@ -94,10 +99,27 @@ Ship.prototype = {
      * Draw the ship
      */
     draw: function() {
-      this.area.draw(this);
-      if(this.showEngineFire) {
-          this.area._drawPolygon(this.pos, this.engineFire, NullVector);
+      if(!animations.ShipExplodes.isFinished()) {
+        animations.ShipExplodes.render(this.area.ctx);
       }
+
+      if(!this.dead) {
+        this.area.ctx.strokeStyle = "rgb(50, 124, 123)";
+        this.area.ctx.fillStyle = "rgba(50, 124, 123, 0.4)";
+        this.area.draw(this);
+        if(this.showEngineFire) {
+            this.area._drawPolygon(this.pos, this.engineFire, NullVector);
+        }
+      }
+    },
+
+    /**
+     * Explode and kill the ship
+     */
+    explode: function(callbackFn) {
+      this.dead = true;
+      // Show explode animation
+      animations.ShipExplodes.start(this.pos.e(1), this.pos.e(2), callbackFn);
     }
 
 };

@@ -88,7 +88,6 @@ GameArea.prototype = {
     var shape = obj.shape;
     var pos = obj.pos.add(obj.shape.center);
 
-    //ctx.fillStyle = "white";
     ctx.beginPath();
     ctx.arc(pos.e(1), pos.e(2), shape.radius, 0, TWOPI);
     ctx.stroke();
@@ -108,8 +107,8 @@ GameArea.prototype = {
     });
 
     // Outline
-    ctx.strokeStyle = "#ddd";
-    ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
+    //ctx.strokeStyle = "#ddd";
+    //ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
     ctx.lineWidth = 2;
     ctx.beginPath();
 
@@ -175,8 +174,8 @@ Game.prototype = {
   init: function() {
     var ship = new Ship(this.area);
     var asteroids = [];
-    for(var i=0; i<2 + this.level; i++) {
-      asteroids.push(new Asteroid());
+    for(var i = 0; i < 2 + this.level; i++) {
+      asteroids.push(new Asteroid({ area: this.area }));
     }
 
     this.objects = {
@@ -200,17 +199,27 @@ Game.prototype = {
       var bullets = this.objects.bullets;
 
       // Successfully completed a level
-      if(asteroids.length === 0) {
+      var NUM_ASTEROIDS = asteroids.length;
+      if(NUM_ASTEROIDS === 0) {
         this.nextLevel();
       }
 
       // Check collisions with ship
+      var collisionWithAsteroid = false;
+      for(var i = 0; i < NUM_ASTEROIDS; i++) {
+        collisionWithAsteroid = ship.collisionWith(asteroids[i]);
+        if(collisionWithAsteroid) break;
+      }
+      /*
       var collisionWithAsteroid = _.any(asteroids, function(asteroid) {
         return ship.collisionWith(asteroid);
       }.bind(this));
+      */
       if(collisionWithAsteroid) {
-        // Restart game
-        this.init();
+        ship.explode(function() {
+          // Restart game
+          this.init();
+        }.bind(this));
       }
 
       // Check game boundaries
@@ -256,9 +265,11 @@ Game.prototype = {
    * Render the game state
    */
   render: function() {
+      /*
       function drawObj(obj) {
         this.area.draw(obj);
       }
+      */
       var ship = this.objects.ship;
 
       // Reset canvas
@@ -270,11 +281,11 @@ Game.prototype = {
 
       var NumAsteroids = this.objects.asteroids.length;
       for(var i = 0; i < NumAsteroids; i++) {
-        this.area.draw(this.objects.asteroids[i]);
+        this.objects.asteroids[i].draw();
       }
       var NumBullets = this.objects.bullets.length;
       for(i = 0; i < NumBullets; i++) {
-        this.area.draw(this.objects.bullets[i]);
+        this.objects.bullets[i].draw();
       }
       /*
        * Seems to be a few ms slower
